@@ -1,0 +1,56 @@
+version: "3.3"
+services:
+#liste des services a executer dans mon docker compose
+    master: #le master
+        build:
+            context: . #le dossier courrant
+            dockerfile: Dockerfile
+        container_name: master
+        hostname: master
+        tty: true
+        env_file:
+            - ./.env
+        volumes: #synchronyse les fichier contenus dans le dossier specifie avec leurs copies dans 
+          - type: bind
+            source: ./src #le dossier a synchroniser
+            target: /app #le dosser docker avec lequel on synchronyse
+        ports: 
+           - 50070:50070
+           - 8088:8088
+        networks: 
+            hadoop:
+
+    slave1: #le slave 1
+        build:
+            context: . #le dossier courrant
+            dockerfile: Dockerfile
+        container_name: slave1
+        hostname: slave1
+        tty: true
+        env_file:
+            - ./.env
+        volumes: #synchronyse les fichier contenus dans le dossier specifie avec leurs copies dans 
+          - type: bind
+            source: ./src #le dossier a synchroniser
+            target: /app #le dosser docker avec lequel on synchronyse
+        networks: 
+            hadoop:
+
+    slave2: #le slave 2
+        build:
+            context: . #le dossier courrant
+            dockerfile: Dockerfile
+        container_name: slave2
+        hostname: slave2
+        tty: true
+        env_file:
+            - ./.env
+        volumes: #synchronyse les fichier contenus dans le dossier specifie avec leurs copies dans 
+          - type: bind
+            source: ./src #le dossier a synchroniser
+            target: /app #le dosser docker avec lequel on synchronyse
+        networks: 
+            hadoop:
+
+networks:
+    hadoop:
